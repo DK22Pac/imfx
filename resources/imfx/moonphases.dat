@@ -1,0 +1,4 @@
+MOON_SIZE         2.0
+MOON_COLOR        1.0 1.0 0.85 1.0
+MOON_SRCBLEND     7
+MOON_DSTBLEND     2

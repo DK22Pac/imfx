@@ -1,0 +1,18 @@
+# Explosions settings file #
+# Explosion Id            # Particle name #
+EXPLOSION_GRENADE         explosion_grenade
+EXPLOSION_MOLOTOV         -
+EXPLOSION_ROCKET          explosion_rocket
+EXPLOSION_WEAK_ROCKET     explosion_rocket
+EXPLOSION_CAR             explosion_medium
+EXPLOSION_QUICK_CAR       explosion_medium
+EXPLOSION_BOAT            explosion_large
+EXPLOSION_AIRCRAFT        explosion_airstrike
+EXPLOSION_MINE            -
+EXPLOSION_OBJECT          -
+EXPLOSION_TANK_FIRE       explosion_grenadelauncher
+EXPLOSION_SMALL           explosion_small
+EXPLOSION_RC_VEHICLE      explosion_tiny
+# Additional types
+EXPLOSION_UNDERWATER      explosion_water
+EXPLOSION_DETONATOR       explosion_satchel

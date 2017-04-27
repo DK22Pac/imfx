@@ -1,0 +1,18 @@
+# The file is set up by Function-X-.
+#
+# weapId prtName   rotating smoke
+#
+  22     gf_colt45      1    0
+  23     gf_silenced    1    0
+  24     gf_deserteagle 1    0
+  25     gf_chromegun   1    0
+  26     gf_sawnoff     1    0
+  27     gf_shotgspa    1    0
+  28     gf_uzi         1    0
+  29     gf_mp5         1    0
+  30     gf_cuntgun     1    0
+  31     gf_m16         1    0
+  32     gf_tec9        1    0
+  33     gf_cuntgun     1    0
+  34     gf_sniper      1    0
+  38     gf_minigun     1    0

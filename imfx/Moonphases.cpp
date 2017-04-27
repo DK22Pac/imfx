@@ -17,8 +17,8 @@ unsigned char Moonphases::m_nMoonBlendDst;
 
 void Moonphases::Setup() {
     patch::RedirectJump(0x713ACB, DrawExecutor); // CClouds::Render
-	m_txd.Init(PLUGIN_PATH("imfx\\moon.txd"));
-	m_pMoonTexture = nullptr;
+    m_txd.Init(PLUGIN_PATH("imfx\\moon.txd"));
+    m_pMoonTexture = nullptr;
     config_file config(PLUGIN_PATH("imfx\\moonphases.dat"));
     m_fMoonSize = config["MOON_SIZE"].asFloat(2.0f);
     CRect rect = config["MOON_COLOR"].asRect(CRect(1.0f, 1.0f, 0.85f, 1.0f));
@@ -31,21 +31,21 @@ void Moonphases::Setup() {
 }
 
 void Moonphases::Shutdown() {
-	m_txd.Unload();
+    m_txd.Unload();
 }
 
 void Moonphases::ProcessPerFrame() {
-	m_txd.ProcessPerFrame();
+    m_txd.ProcessPerFrame();
 }
 
 void Moonphases::Draw(CVector *pos, unsigned char color) {
     RwRenderStateSet(rwRENDERSTATESRCBLEND, reinterpret_cast<void *>(rwBLENDDESTALPHA));
     RwRenderStateSet(rwRENDERSTATEDESTBLEND, reinterpret_cast<void *>(rwBLENDONE));
     RwRenderStateSet(rwRENDERSTATEZWRITEENABLE, FALSE);
-	if (!m_txd.Validate()) {
-		m_txd.Load();
-		m_pMoonTexture = m_txd.GetTexture("moon");
-	}
+    if (!m_txd.Validate()) {
+        m_txd.Load();
+        m_pMoonTexture = m_txd.GetTexture("moon");
+    }
     RwRenderStateSet(rwRENDERSTATETEXTURERASTER, m_pMoonTexture->raster);
     float h = m_fMoonSize * 10.0f * (static_cast<float>(CCoronas::MoonSize) + static_cast<float>(CCoronas::MoonSize) + 4.0f) / 2.0f;
     float x1 = pos->x - h;
@@ -57,7 +57,7 @@ void Moonphases::Draw(CVector *pos, unsigned char color) {
     unsigned char g = color * m_moonColor.green;
     unsigned char b = color * m_moonColor.blue;
     unsigned char a = color * m_moonColor.alpha;
-    unsigned char id = static_cast<unsigned char>(static_cast<float>(CClock::ms_nGameClockDays - 1) / 
+    unsigned char id = static_cast<unsigned char>(static_cast<float>(CClock::ms_nGameClockDays - 1) /
         static_cast<float>(CClock::daysInMonth[CClock::ms_nGameClockMonth - 1] - 1) * 23.0f);
     float z = (RwEngineInstance->dOpenDevice.zBufferFar - RwEngineInstance->dOpenDevice.zBufferNear) * (CDraw::ms_fFarClipZ - CDraw::ms_fNearClipZ) *
         CDraw::ms_fFarClipZ / ((CDraw::ms_fFarClipZ - CDraw::ms_fNearClipZ) * CDraw::ms_fFarClipZ);

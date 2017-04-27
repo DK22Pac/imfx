@@ -10,21 +10,21 @@ char Explosions::ExplosionFxNames[IMFX_NUM_EXPLOSION_TYPES][64];
 void Explosions::Setup() {
     config_file config(PLUGIN_PATH("imfx\\explosions.dat"));
 
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_GRENADE    ], config["EXPLOSION_GRENADE"    ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_MOLOTOV    ], config["EXPLOSION_MOLOTOV"    ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_ROCKET     ], config["EXPLOSION_ROCKET"     ].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_GRENADE], config["EXPLOSION_GRENADE"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_MOLOTOV], config["EXPLOSION_MOLOTOV"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_ROCKET], config["EXPLOSION_ROCKET"].asString().c_str());
     strcpy(ExplosionFxNames[IMFX_EXPLOSION_WEAK_ROCKET], config["EXPLOSION_WEAK_ROCKET"].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_CAR        ], config["EXPLOSION_CAR"        ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_QUICK_CAR  ], config["EXPLOSION_QUICK_CAR"  ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_BOAT       ], config["EXPLOSION_BOAT"       ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_AIRCRAFT   ], config["EXPLOSION_AIRCRAFT"   ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_MINE       ], config["EXPLOSION_MINE"       ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_OBJECT     ], config["EXPLOSION_OBJECT"     ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_TANK_FIRE  ], config["EXPLOSION_TANK_FIRE"  ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_SMALL      ], config["EXPLOSION_SMALL"      ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_RC_VEHICLE ], config["EXPLOSION_RC_VEHICLE" ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_UNDERWATER ], config["EXPLOSION_UNDERWATER" ].asString().c_str());
-    strcpy(ExplosionFxNames[IMFX_EXPLOSION_DETONATOR  ], config["EXPLOSION_DETONATOR"  ].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_CAR], config["EXPLOSION_CAR"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_QUICK_CAR], config["EXPLOSION_QUICK_CAR"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_BOAT], config["EXPLOSION_BOAT"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_AIRCRAFT], config["EXPLOSION_AIRCRAFT"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_MINE], config["EXPLOSION_MINE"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_OBJECT], config["EXPLOSION_OBJECT"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_TANK_FIRE], config["EXPLOSION_TANK_FIRE"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_SMALL], config["EXPLOSION_SMALL"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_RC_VEHICLE], config["EXPLOSION_RC_VEHICLE"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_UNDERWATER], config["EXPLOSION_UNDERWATER"].asString().c_str());
+    strcpy(ExplosionFxNames[IMFX_EXPLOSION_DETONATOR], config["EXPLOSION_DETONATOR"].asString().c_str());
 
     for (unsigned int i = 0; i < IMFX_NUM_EXPLOSION_TYPES; ++i) {
         if (ExplosionFxNames[i][0] == '-')

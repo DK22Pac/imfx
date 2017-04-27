@@ -6,21 +6,21 @@
 #include <vector>
 
 struct GunflashInfo {
-	unsigned int weapId;
-	char fxName[64];
-	bool rotate;
-	bool smoke;
+    unsigned int weapId;
+    char fxName[64];
+    bool rotate;
+    bool smoke;
 };
 
 class Gunflashes {
 public:
-	static std::vector<GunflashInfo> gunflashInfos;
+    static std::vector<GunflashInfo> gunflashInfos;
     static RwMatrix mLocalParticleMatrix;
     static bool bLocalParticleMatrixCopied;
     static bool bLeftHand;
 
-	static void Setup();
-	static void ReadSettings();
+    static void Setup();
+    static void ReadSettings();
     static void UpdateAfterPreRender();
     static void __fastcall MyTriggerGunflash(Fx_c *fx, int, CEntity *owner, CVector &origin, CVector &target, bool doGunflash);
     static void __fastcall DoDriveByGunflash(CPed *driver, int, int, bool leftHand);

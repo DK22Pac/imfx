@@ -8,7 +8,7 @@
 DebugConsole gConsole;
 
 DebugConsole::DebugConsole() {
-	nLastMessage = 19;
+    nLastMessage = 19;
 }
 
 void DebugConsole::RenderOneMessage(float x, float y, char *text) {
@@ -28,19 +28,19 @@ void DebugConsole::RenderOneMessage(float x, float y, char *text) {
 }
 
 void DebugConsole::Render() {
-	CSprite2d::DrawRect(CRect(SCREEN_COORD(10.0f), SCREEN_COORD(185.0f), SCREEN_COORD(400.0f), SCREEN_COORD(795.0f)),
-		CRGBA(0, 0, 0, 150));
-	float y = 190.0f;
-	for (unsigned int i = nLastMessage + 1; i < 20; ++i) {
-		if (messages[i][0]) {
-			RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
-			y += 30.0f;
-		}
-	}
-	for (unsigned int i = 0; i <= nLastMessage; ++i) {
-		if (messages[i][0]) {
-			RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
-			y += 30.0f;
-		}
-	}
+    CSprite2d::DrawRect(CRect(SCREEN_COORD(10.0f), SCREEN_COORD(185.0f), SCREEN_COORD(400.0f), SCREEN_COORD(795.0f)),
+        CRGBA(0, 0, 0, 150));
+    float y = 190.0f;
+    for (unsigned int i = nLastMessage + 1; i < 20; ++i) {
+        if (messages[i][0]) {
+            RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            y += 30.0f;
+        }
+    }
+    for (unsigned int i = 0; i <= nLastMessage; ++i) {
+        if (messages[i][0]) {
+            RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            y += 30.0f;
+        }
+    }
 }

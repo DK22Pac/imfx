@@ -10,23 +10,23 @@ const float CAM_MAX_DISTANCE_SQUARED = 0.8f;
 
 class WaterDrop {
 public:
-	bool active;
-	unsigned char size;
-	unsigned short x, y;
-	int time;
-	void Render();
+    bool active;
+    unsigned char size;
+    unsigned short x, y;
+    int time;
+    void Render();
 };
 
 class WaterDrops {
 public:
-	static void AddWaterDrop();
-	static void Clear();
-	static void Update();
-	static void Render();
-	static void Setup();
-	static void Shutdown();
-	static void ProcessPerFrame();
-	static WaterDrop m_waterDrops[MAX_WATER_DROPS];
-	static DynamicTxd m_txd;
-	static RwTexture *m_pTexture;
+    static void AddWaterDrop();
+    static void Clear();
+    static void Update();
+    static void Render();
+    static void Setup();
+    static void Shutdown();
+    static void ProcessPerFrame();
+    static WaterDrop m_waterDrops[MAX_WATER_DROPS];
+    static DynamicTxd m_txd;
+    static RwTexture *m_pTexture;
 };

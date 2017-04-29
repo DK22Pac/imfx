@@ -19,6 +19,7 @@ bool Gunflashes::bLeftHand;
 void Gunflashes::Setup() {
     patch::Nop(0x73306D, 9); // Remove default gunflashes
     patch::Nop(0x7330FF, 9); // Remove default gunflashes
+    patch::SetUShort(0x5DF425, 0xE990); // Remove default gunflashes
     patch::SetUChar(0x741353, 0); // Add gunflash for cuntgun
     patch::SetUShort(0x53C1F0, 0xC483); // add esp, 8
     patch::SetUChar(0x53C1F2, 8);

@@ -26,6 +26,7 @@ IMFX::IMFX() {
     static CdeclEvent<AddressList<0x53DE2B, H_CALL, 0x53E213, H_CALL>, PRIORITY_BEFORE, ArgPickNone, void()> imfxSpecialFxRender;
     static CdeclEvent<AddressList<0x53EAD3, H_CALL>, PRIORITY_BEFORE, ArgPickNone, void()> imfxAfterPreRender;
     static ThiscallEvent<AddressList<0x4A273E, H_CALL>, PRIORITY_BEFORE, ArgPick2N<FxPrimBP_c*, 0, RwMatrix*, 1>, void(FxPrimBP_c*, RwMatrix*)> imfxGetLocalParticleMatrix;
+    static ThiscallEvent<AddressList<0x4B3A49, H_CALL>, PRIORITY_AFTER, ArgPick2N<CPed *, 0, int, 1>, void(CPed*, int, int)> imfxRemovePedHeadEvent;
 
     if (settings.bEnableDebugConsole) {
         Events::drawingEvent += [] {
@@ -36,7 +37,7 @@ IMFX::IMFX() {
     Events::initRwEvent += [] {
         settings.Read();
         if (settings.bEnableHeadshot) {
-            Headshot::Setup();
+            imfxRemovePedHeadEvent += Headshot::DoHeadshot;
         }
         if (settings.bEnableMoonphases) {
             Moonphases::Setup();

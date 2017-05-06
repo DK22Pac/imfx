@@ -17,7 +17,7 @@ unsigned char Moonphases::m_nMoonBlendDst;
 
 void Moonphases::Setup() {
     patch::RedirectJump(0x713ACB, DrawExecutor); // CClouds::Render
-    m_txd.Init(/*PLUGIN_PATH*/("imfx\\moon.txd"));
+    m_txd.Init(PLUGIN_PATH("imfx\\moon.txd"));
     m_pMoonTexture = nullptr;
     config_file config(PLUGIN_PATH("imfx\\moonphases.dat"));
     m_fMoonSize = config["MOON_SIZE"].asFloat(2.0f);

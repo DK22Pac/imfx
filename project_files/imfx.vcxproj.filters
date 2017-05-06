@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{d0f7582d-ea33-456d-85b8-cc40bbd8463c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\source\DebugConsole.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DynamicTxd.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Explosions.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Gunflashes.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Headshot.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\imfx.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ImVerts.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Lensflare.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Moonphases.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProportionalCoronas.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Settings.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\WaterDrops.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\source\DebugConsole.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\DynamicTxd.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Explosions.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Gunflashes.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Headshot.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\imfx.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ImVerts.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Lensflare.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Moonphases.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProportionalCoronas.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Settings.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\WaterDrops.h">
+      <Filter>source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

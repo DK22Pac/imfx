@@ -42,6 +42,12 @@
     <ClCompile Include="..\source\WaterDrops.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\BloodSpots.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Version.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\DebugConsole.h">
@@ -78,6 +84,12 @@
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="..\source\WaterDrops.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\BloodSpots.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Version.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,10 +22,10 @@ void Moonphases::Setup() {
     config_file config(PLUGIN_PATH("imfx\\moonphases.dat"));
     m_fMoonSize = config["MOON_SIZE"].asFloat(2.0f);
     CRect rect = config["MOON_COLOR"].asRect(CRect(1.0f, 1.0f, 0.85f, 1.0f));
-    m_moonColor.red = rect.m_fLeft;
-    m_moonColor.green = rect.m_fBottom;
-    m_moonColor.blue = rect.m_fRight;
-    m_moonColor.alpha = rect.m_fTop;
+    m_moonColor.red = rect.left;
+    m_moonColor.green = rect.bottom;
+    m_moonColor.blue = rect.right;
+    m_moonColor.alpha = rect.top;
     m_nMoonBlendSrc = config["MOON_SRCBLEND"].asInt(7);
     m_nMoonBlendDst = config["MOON_DSTBLEND"].asInt(2);
 }

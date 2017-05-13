@@ -9,6 +9,7 @@ public:
     bool bEnableHeadshot;
     bool bEnableMoonphases;
     bool bEnableExplosions;
+    bool bEnableBloodSpots;
     bool bEnableProportionalCoronas;
     bool bEnableWaterDrops;
     bool bEnableDebugConsole;

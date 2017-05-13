@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\BloodSpots.cpp" />
     <ClCompile Include="..\source\DebugConsole.cpp" />
     <ClCompile Include="..\source\DynamicTxd.cpp" />
     <ClCompile Include="..\source\Explosions.cpp" />
@@ -22,9 +23,11 @@
     <ClCompile Include="..\source\Moonphases.cpp" />
     <ClCompile Include="..\source\ProportionalCoronas.cpp" />
     <ClCompile Include="..\source\Settings.cpp" />
+    <ClCompile Include="..\source\Version.cpp" />
     <ClCompile Include="..\source\WaterDrops.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\BloodSpots.h" />
     <ClInclude Include="..\source\DebugConsole.h" />
     <ClInclude Include="..\source\DynamicTxd.h" />
     <ClInclude Include="..\source\Explosions.h" />
@@ -36,6 +39,7 @@
     <ClInclude Include="..\source\Moonphases.h" />
     <ClInclude Include="..\source\ProportionalCoronas.h" />
     <ClInclude Include="..\source\Settings.h" />
+    <ClInclude Include="..\source\Version.h" />
     <ClInclude Include="..\source\WaterDrops.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

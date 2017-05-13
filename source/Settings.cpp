@@ -9,6 +9,7 @@ void Settings::Read() {
     bEnableHeadshot = config["ENABLE_HEADSHOT"].asBool(true);
     bEnableMoonphases = config["ENABLE_MOONPHASES"].asBool(true);
     bEnableExplosions = config["ENABLE_EXPLOSIONS"].asBool(true);
+    bEnableBloodSpots = config["ENABLE_BLOODSPOTS"].asBool(true);
     bEnableProportionalCoronas = config["ENABLE_PROPORTIONAL_CORONAS"].asBool(true);
     bEnableWaterDrops = config["ENABLE_WATER_DROPS"].asBool(true);
     bEnableDebugConsole = config["ENABLE_DEBUG_CONSOLE"].asBool(false);

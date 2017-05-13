@@ -108,20 +108,15 @@ void __fastcall Gunflashes::MyTriggerGunflash(Fx_c *fx, int, CEntity *entity, CV
             char weapSkill = owner->GetWeaponSkill(owner->m_aWeapons[owner->m_nActiveWeaponSlot].m_Type);
             CWeaponInfo *weapInfo = CWeaponInfo::GetWeaponInfo(owner->m_aWeapons[owner->m_nActiveWeaponSlot].m_Type, weapSkill);
             RwV3d offset = weapInfo->m_vecFireOffset.ToRwV3d();
-            if (bLeftHand) {
+            if (bLeftHand)
                 offset.z *= -1.0f;
-            }
-            RwV3d axis_x = { 1.0f, 0.0f, 0.0f };
-            RwV3d axis_y = { 0.0f, 1.0f, 0.0f };
-            RwV3d axis_z = { 0.0f, 0.0f, 1.0f };
+            static RwV3d axis_y = { 0.0f, 1.0f, 0.0f };
+            static RwV3d axis_z = { 0.0f, 0.0f, 1.0f };
             RpHAnimHierarchy *hierarchy = GetAnimHierarchyFromSkinClump(owner->m_pRwClump);
             RwMatrix *boneMat = &RpHAnimHierarchyGetMatrixArray(hierarchy)[RpHAnimIDGetIndex(hierarchy, 24 + 10 * bLeftHand)];
             FxSystem_c *gunflashFx = g_fxMan.CreateFxSystem(fxName, &offset, boneMat, true);
             if (gunflashFx) {
-                if (bLeftHand)
-                    RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
-                else
-                    RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
+                RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
                 if (rotate) {
                     RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_y, CGeneral::GetRandomNumberInRange(0.0f, 360.0f), rwCOMBINEPRECONCAT);
                 }

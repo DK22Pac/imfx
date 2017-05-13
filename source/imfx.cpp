@@ -9,6 +9,7 @@
 #include "Lensflare.h"
 #include "Gunflashes.h"
 #include "Explosions.h"
+#include "BloodSpots.h"
 #include "game_sa\CFileLoader.h"
 #include "game_sa\FxPrimBP_c.h"
 
@@ -68,6 +69,15 @@ IMFX::IMFX() {
         }
         if (settings.bEnableExplosions) {
             Explosions::Setup();
+        }
+        if (settings.bEnableBloodSpots) {
+            BloodSpots::Setup();
+        }
+    };
+
+    Events::shutdownRwEvent += [] {
+        if (settings.bEnableBloodSpots) {
+            BloodSpots::Shutdown();
         }
     };
 }

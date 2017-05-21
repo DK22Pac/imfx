@@ -1,4 +1,5 @@
 #include "Gunflashes.h"
+#include "imfx.h"
 #include "plugin.h"
 #include "game_sa\FxManager_c.h"
 #include "game_sa\common.h"
@@ -21,11 +22,13 @@ void Gunflashes::Setup() {
     patch::Nop(0x7330FF, 9); // Remove default gunflashes
     patch::SetUShort(0x5DF425, 0xE990); // Remove default gunflashes
     patch::SetUChar(0x741353, 0); // Add gunflash for cuntgun
-    patch::SetUShort(0x53C1F0, 0xC483); // add esp, 8
-    patch::SetUChar(0x53C1F2, 8);
-    patch::Nop(0x53C1F3, 2);
+    if (!IMFX::bSampGame) {
+        patch::SetUShort(0x53C1F0, 0xC483); // add esp, 8
+        patch::SetUChar(0x53C1F2, 8);
+        patch::Nop(0x53C1F3, 2);
+        patch::RedirectCall(0x742299, DoDriveByGunflash);
+    }
     patch::RedirectJump(0x4A0DE0, MyTriggerGunflash);
-    patch::RedirectCall(0x742299, DoDriveByGunflash);
     patch::SetPointer(0x86D744, MyProcessUseGunTask);
     ReadSettings();
 }
@@ -120,7 +123,8 @@ void __fastcall Gunflashes::MyTriggerGunflash(Fx_c *fx, int, CEntity *entity, CV
                 if (rotate) {
                     RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_y, CGeneral::GetRandomNumberInRange(0.0f, 360.0f), rwCOMBINEPRECONCAT);
                 }
-                gunflashFx->SetLocalParticles(true);
+                if(!IMFX::bSampGame)
+                    gunflashFx->SetLocalParticles(true);
                 gunflashFx->PlayAndKill();
             }
             if (smoke) {

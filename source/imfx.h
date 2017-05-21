@@ -3,5 +3,7 @@
 
 class IMFX {
 public:
+    static bool bSampGame;
+
     IMFX();
 };

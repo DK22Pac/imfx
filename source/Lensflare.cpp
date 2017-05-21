@@ -15,6 +15,11 @@ DynamicTxd Lensflare::m_txd;
 
 void Lensflare::Setup() {
     patch::RedirectJump(0x6FB2EE, DrawExecutor); // CCoronas::Render
+    // remove fire coronas
+    patch::Nop(0x53B7E0, 5);
+    patch::Nop(0x53B893, 5);
+    patch::Nop(0x53B99C, 5);
+    patch::Nop(0x53BAA5, 5);
     ReadSettings();
     m_txd.Init(PLUGIN_PATH("imfx\\lensflare.txd"));
 }

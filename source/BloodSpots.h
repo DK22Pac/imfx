@@ -1,6 +1,7 @@
 #pragma once
 #include "game_sa\RenderWare.h"
 #include "game_sa\CPed.h"
+#include "game_sa\FxPrtMult_c.h"
 
 class BloodSpots {
 public:
@@ -20,4 +21,7 @@ public:
     static void Shutdown();
     static void __fastcall MyDoPedFootLanded(CPed *ped, int, bool bLeftFoot, unsigned char arg3);
     static void DoFootStepShadow(unsigned char type, RwTexture* texture, CVector* posn, float topX, float topY, float rightX, float rightY, short intensity, unsigned char red, unsigned char greeb, unsigned char blue, float drawDistance, unsigned int time, float upDistance);
+    static void AddBloodShadow1(unsigned char type, RwTexture* texture, CVector* posn, float topX, float topY, float rightX, float rightY, short intensity, unsigned char red, unsigned char greeb, unsigned char blue, float drawDistance, unsigned int time, float upDistance);
+    static void AddBloodShadow2(unsigned int id, unsigned char type, RwTexture* texture, CVector* posn, float topX, float topY, float rightX, float rightY, short intensity, unsigned char red, unsigned char greeb, unsigned char blue, float zDistance, float scale, float drawDistance, bool temporaryShadow, float upDistance);
+    static FxPrtMult_c * __fastcall MyConstructBloodFxInfo(FxPrtMult_c *_this, int, float red, float green, float blue, float alpha, float size, float arg5, float lastFactor);
 };

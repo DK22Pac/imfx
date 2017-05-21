@@ -10,6 +10,7 @@ public:
     bool bEnableMoonphases;
     bool bEnableExplosions;
     bool bEnableBloodSpots;
+    bool bEnableRoadsign;
     bool bEnableProportionalCoronas;
     bool bEnableWaterDrops;
     bool bEnableDebugConsole;

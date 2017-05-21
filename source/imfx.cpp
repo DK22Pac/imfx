@@ -1,5 +1,6 @@
 #include "imfx.h"
 #include "Settings.h"
+#include "Version.h"
 #include "DebugConsole.h"
 #include "plugin.h"
 #include "Headshot.h"
@@ -10,12 +11,15 @@
 #include "Gunflashes.h"
 #include "Explosions.h"
 #include "BloodSpots.h"
+#include "Roadsign.h"
 #include "game_sa\CFileLoader.h"
 #include "game_sa\FxPrimBP_c.h"
 
 using namespace plugin;
 
 IMFX imfxPlugin;
+
+bool IMFX::bSampGame = false;
 
 IMFX::IMFX() {
 
@@ -30,12 +34,20 @@ IMFX::IMFX() {
     static ThiscallEvent<AddressList<0x4B3A49, H_CALL>, PRIORITY_AFTER, ArgPick2N<CPed *, 0, int, 1>, void(CPed*, int, int)> imfxRemovePedHeadEvent;
 
     if (settings.bEnableDebugConsole) {
+        gConsole.AddMessage("IMFX %s", IMFX_VERSION_STR);
+
         Events::drawingEvent += [] {
             gConsole.Render();
         };
     }
 
     Events::initRwEvent += [] {
+
+        bSampGame = GetModuleHandle("samp.dll") != NULL;
+
+        if(bSampGame)
+            gConsole.AddMessage("SAMP game detected");
+
         settings.Read();
         if (settings.bEnableHeadshot) {
             imfxRemovePedHeadEvent += Headshot::DoHeadshot;
@@ -63,21 +75,23 @@ IMFX::IMFX() {
         }
         if (settings.bEnableGunflashes) {
             Gunflashes::Setup();
-            imfxAfterPreRender += Gunflashes::UpdateAfterPreRender;
-            imfxGetLocalParticleMatrix.before += Gunflashes::GetMatrixForLocalParticleBefore;
-            imfxGetLocalParticleMatrix.after += Gunflashes::GetMatrixForLocalParticleAfter;
+            if (!bSampGame) {
+                imfxAfterPreRender += Gunflashes::UpdateAfterPreRender;
+                imfxGetLocalParticleMatrix.before += Gunflashes::GetMatrixForLocalParticleBefore;
+                imfxGetLocalParticleMatrix.after += Gunflashes::GetMatrixForLocalParticleAfter;
+            }
         }
         if (settings.bEnableExplosions) {
             Explosions::Setup();
         }
         if (settings.bEnableBloodSpots) {
             BloodSpots::Setup();
+            Events::shutdownRwEvent += BloodSpots::Shutdown;
         }
-    };
-
-    Events::shutdownRwEvent += [] {
-        if (settings.bEnableBloodSpots) {
-            BloodSpots::Shutdown();
+        if (settings.bEnableRoadsign) {
+            Roadsign::Setup();
+            Events::shutdownRwEvent += Roadsign::Shutdown;
+            imfxIdleEvent += Roadsign::ProcessPerFrame;
         }
     };
 }

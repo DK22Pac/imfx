@@ -35,6 +35,9 @@ void BloodSpots::Setup() {
         m_pBloodFootStep4[1] = RwTexDictionaryFindNamedTexture(m_pTxd, "bloodfootstep4_r");
     }
     // change blood color
+    patch::RedirectCall(0x630EA2, AddBloodShadow1);
+    patch::RedirectCall(0x630E63, AddBloodShadow2);
+    patch::RedirectCall(0x49EB86, MyConstructBloodFxInfo);
     patch::SetUChar(0x49ED79, 255);
     patch::SetUChar(0x49ED7B, 255);
     patch::SetUInt(0x49ED7D, 255);
@@ -124,6 +127,10 @@ void BloodSpots::DoFootStepShadow(unsigned char type, RwTexture* texture, CVecto
             case MODEL_HFYBE:
             case MODEL_WFYCRK:
             case MODEL_HMYCM:
+            case MODEL_DWFYLC1:
+            case MODEL_WMYBE:
+            case MODEL_CWFYHB:
+            case MODEL_CWMOHB1:
                 myTexture = m_pBloodFootStep1[texNum];
                 break;
             case MODEL_BFYRI:
@@ -136,12 +143,33 @@ void BloodSpots::DoFootStepShadow(unsigned char type, RwTexture* texture, CVecto
             case MODEL_WFYRI:
             case MODEL_DNFYLC:
             case MODEL_SOFYBU:
-            case MODEL_WFYBU: // 150
+            case MODEL_WFYBU:
+            case MODEL_SOFYRI:
+            case MODEL_WFYSEX:
+            case MODEL_VHFYPRO:
+            case MODEL_VWFYWAI:
+            case MODEL_SBFORI:
+            case MODEL_SWFYRI:
+            case MODEL_SBFYRI:
+            case MODEL_SOFORI:
+            case MODEL_SWFYST:
+            case MODEL_SHFYPRO:
+            case MODEL_SBFYPRO:
+            case MODEL_SFYPRO:
+            case MODEL_VBFYST2:
+            case MODEL_VBFYPRO:
+            case MODEL_VHFYST3:
+            case MODEL_SBFYSTR:
+            case MODEL_SWFYSTR:
+            case MODEL_VWFYWA2:
                 myTexture = m_pBloodFootStep3[texNum];
                 break;
             case MODEL_BMYBE:
             case MODEL_HMYBE:
             case MODEL_WMYLG:
+            case MODEL_CWMYHB1:
+            case MODEL_WFYLG:
+            case MODEL_WMYVA2:
                 myTexture = m_pBloodFootStep4[texNum];
                 break;
             case MODEL_WFYRO:
@@ -154,4 +182,17 @@ void BloodSpots::DoFootStepShadow(unsigned char type, RwTexture* texture, CVecto
     }
     if (myTexture)
         CShadows::AddPermanentShadow(type, myTexture, posn, topX, topY, rightX, rightY, intensity, 49, 17, 16, drawDistance, time, upDistance);
+}
+
+void BloodSpots::AddBloodShadow1(unsigned char type, RwTexture* texture, CVector* posn, float topX, float topY, float rightX, float rightY, short intensity, unsigned char red, unsigned char greeb, unsigned char blue, float drawDistance, unsigned int time, float upDistance) {
+    CShadows::AddPermanentShadow(type, texture, posn, topX, topY, rightX, rightY, intensity, 255, 255, 255, drawDistance, time, upDistance);
+}
+
+void BloodSpots::AddBloodShadow2(unsigned int id, unsigned char type, RwTexture* texture, CVector* posn, float topX, float topY, float rightX, float rightY, short intensity, unsigned char red, unsigned char greeb, unsigned char blue, float zDistance, float scale, float drawDistance, bool temporaryShadow, float upDistance) {
+    CShadows::StoreStaticShadow(id, type, texture, posn, topX, topY, rightX, rightY, intensity, 255, 255, 255, zDistance, scale, drawDistance, temporaryShadow, upDistance);
+}
+
+FxPrtMult_c * __fastcall BloodSpots::MyConstructBloodFxInfo(FxPrtMult_c *_this, int, float red, float green, float blue, float alpha, float size, float arg5, float lastFactor) {
+    CallMethod<0x4AB290>(_this, 1.0f, 1.0f, 1.0f, 1.0f, size, arg5, lastFactor);
+    return _this;
 }

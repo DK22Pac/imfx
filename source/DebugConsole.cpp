@@ -1,4 +1,5 @@
 #include "DebugConsole.h"
+#include "imfx.h"
 #include "Settings.h"
 #include <string>
 #include "plugin.h"
@@ -28,18 +29,26 @@ void DebugConsole::RenderOneMessage(float x, float y, char *text) {
 }
 
 void DebugConsole::Render() {
-    CSprite2d::DrawRect(CRect(SCREEN_COORD(10.0f), SCREEN_COORD(185.0f), SCREEN_COORD(400.0f), SCREEN_COORD(795.0f)),
-        CRGBA(0, 0, 0, 150));
+    if (!IMFX::bSampGame)
+        CSprite2d::DrawRect(CRect(SCREEN_COORD(10.0f), SCREEN_COORD(185.0f), SCREEN_COORD(400.0f), SCREEN_COORD(795.0f)), CRGBA(0, 0, 0, 150));
+    else
+        CSprite2d::DrawRect(CRect(SCREEN_COORD_RIGHT(400.0f), SCREEN_COORD(185.0f), SCREEN_COORD_RIGHT(10.0f), SCREEN_COORD(795.0f)), CRGBA(0, 0, 0, 150));
     float y = 190.0f;
     for (unsigned int i = nLastMessage + 1; i < 20; ++i) {
         if (messages[i][0]) {
-            RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            if(!IMFX::bSampGame)
+                RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            else
+                RenderOneMessage(SCREEN_COORD_RIGHT(395.0f), SCREEN_COORD(y), messages[i]);
             y += 30.0f;
         }
     }
     for (unsigned int i = 0; i <= nLastMessage; ++i) {
         if (messages[i][0]) {
-            RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            if(!IMFX::bSampGame)
+                RenderOneMessage(SCREEN_COORD(15.0f), SCREEN_COORD(y), messages[i]);
+            else
+                RenderOneMessage(SCREEN_COORD_RIGHT(395.0f), SCREEN_COORD(y), messages[i]);
             y += 30.0f;
         }
     }

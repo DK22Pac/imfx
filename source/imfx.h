@@ -6,4 +6,6 @@ public:
     static bool bSampGame;
 
     IMFX();
+
+    static void ProcessPerFrame();
 };

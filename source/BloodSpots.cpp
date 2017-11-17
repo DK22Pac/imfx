@@ -45,7 +45,7 @@ void BloodSpots::Setup() {
         patch::SetPointer(0x630E32, m_pBloodPool);
         patch::SetPointer(0x630E74, m_pBloodPool);
         patch::SetPointer(0x679ED0, m_pBloodPool);
-        patch::SetPointer(0x679FAA, m_pBloodPool);
+        patch::SetPointer(0x679FA9, m_pBloodPool);
         patch::SetPointer(0x707B0B, m_pBloodPool);
     }
 
@@ -96,7 +96,7 @@ void BloodSpots::DoFootStepShadow(unsigned char type, RwTexture* texture, CVecto
     if (m_pPedForFootStep) {
         unsigned int texNum = m_bLeftFootStep ? 0 : 1;
         if (m_pPedForFootStep->m_wModelIndex == MODEL_NULL && m_pPedForFootStep->m_pPlayerData) {
-            unsigned int key = m_pPedForFootStep->m_pPlayerData->m_pClothes->m_adwTextureKeys[3];
+            unsigned int key = m_pPedForFootStep->m_pPlayerData->m_pPedClothesDesc->m_adwTextureKeys[3];
             if (!key || key == CKeyGen::GetUppercaseKey("FOOT"))
                 myTexture = m_pBloodFootStep4[texNum];
             else if(key == CKeyGen::GetUppercaseKey("SANDAL") || key == CKeyGen::GetUppercaseKey("SANDALSOCK"))

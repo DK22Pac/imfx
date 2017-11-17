@@ -12,29 +12,32 @@
 
 using namespace plugin;
 
+RwMatrix Gunflashes::matrixAry[20];
+unsigned int Gunflashes::matrixCounter = 0;
+PedExtendedData<Gunflashes::PedExtension> Gunflashes::pedExt;
 std::vector<GunflashInfo> Gunflashes::gunflashInfos;
-RwMatrix Gunflashes::mLocalParticleMatrix;
-bool Gunflashes::bLocalParticleMatrixCopied = false;
-bool Gunflashes::bLeftHand;
+bool Gunflashes::bLeftHand = false;
+bool Gunflashes::bVehicleGunflash = false;
+
+Gunflashes::PedExtension::PedExtension(CPed *) {
+    Reset();
+}
+
+void Gunflashes::PedExtension::Reset() {
+    bLeftHandGunflashThisFrame = false;
+    bRightHandGunflashThisFrame = false;
+    bInVehicle = false;
+}
 
 void Gunflashes::Setup() {
     patch::Nop(0x73306D, 9); // Remove default gunflashes
     patch::Nop(0x7330FF, 9); // Remove default gunflashes
     patch::SetUShort(0x5DF425, 0xE990); // Remove default gunflashes
     patch::SetUChar(0x741353, 0); // Add gunflash for cuntgun
-    if (!IMFX::bSampGame) {
-        patch::SetUShort(0x53C1F0, 0xC483); // add esp, 8
-        patch::SetUChar(0x53C1F2, 8);
-        patch::Nop(0x53C1F3, 2);
-        patch::RedirectCall(0x742299, DoDriveByGunflash);
-    }
+    patch::RedirectCall(0x742299, DoDriveByGunflash);
     patch::RedirectJump(0x4A0DE0, MyTriggerGunflash);
     patch::SetPointer(0x86D744, MyProcessUseGunTask);
     ReadSettings();
-}
-
-void Gunflashes::UpdateAfterPreRender() {
-    g_fx.Update(TheCamera.m_pRwCamera, CTimer::ms_fTimeStep * 0.02f);
 }
 
 void Gunflashes::ReadSettings() {
@@ -54,8 +57,17 @@ void Gunflashes::ReadSettings() {
     }
 }
 
+void Gunflashes::ProcessPerFrame() {
+    matrixCounter = 0;
+    for (int i = 0; i < CPools::ms_pPedPool->m_nSize; i++) {
+        CPed *ped = CPools::ms_pPedPool->GetAt(i);
+        if (ped)
+            pedExt.Get(ped).Reset();
+    }
+}
+
 bool __fastcall Gunflashes::MyProcessUseGunTask(CTaskSimpleUseGun *task, int, CPed *ped) {
-    if (task->m_pWeaponInfo == CWeaponInfo::GetWeaponInfo(ped->m_aWeapons[ped->m_nActiveWeaponSlot].m_Type, ped->GetWeaponSkill())) {
+    if (task->m_pWeaponInfo == CWeaponInfo::GetWeaponInfo(ped->m_aWeapons[ped->m_nActiveWeaponSlot].m_nType, ped->GetWeaponSkill())) {
         if (task->m_nFlags.bRightHand) {
             bLeftHand = false;
             CallMethod<0x61EB10>(task, ped, false);
@@ -70,89 +82,93 @@ bool __fastcall Gunflashes::MyProcessUseGunTask(CTaskSimpleUseGun *task, int, CP
     return 0;
 }
 
-void Gunflashes::GetMatrixForLocalParticleBefore(FxPrimBP_c *primBP, RwMatrix *out) {
-    if (primBP->m_apTextures[0] && !_strnicmp(primBP->m_apTextures[0]->name, "gunflash", 7)) {
-        memcpy(&mLocalParticleMatrix, out, sizeof(RwMatrix));
-        mLocalParticleMatrix.pos.x = 0.0f;
-        mLocalParticleMatrix.pos.y = 0.0f;
-        mLocalParticleMatrix.pos.z = 0.0f;
-        bLocalParticleMatrixCopied = true;
-    }
-    else
-        bLocalParticleMatrixCopied = false;
-}
-
-void Gunflashes::GetMatrixForLocalParticleAfter(FxPrimBP_c *primBP, RwMatrix *out) {
-    if (bLocalParticleMatrixCopied)
-        memcpy(out, &mLocalParticleMatrix, sizeof(RwMatrix));
-}
-
 void __fastcall Gunflashes::DoDriveByGunflash(CPed *driver, int, int, bool leftHand) {
     bLeftHand = leftHand;
+    bVehicleGunflash = true;
     MyTriggerGunflash(&g_fx, 0, driver, CVector(0.0f, 0.0f, 0.0f), CVector(0.0f, 0.0f, 0.0f), true);
 }
 
 void __fastcall Gunflashes::MyTriggerGunflash(Fx_c *fx, int, CEntity *entity, CVector &origin, CVector &target, bool doGunflash) {
-    RwMatrix *mat = g_fxMan.FxRwMatrixCreate();
-    if (mat) {
-        if (entity && entity->m_nType == ENTITY_TYPE_PED && entity->m_pRwObject && entity->m_pRwObject->type == rpCLUMP) {
-            CPed *owner = reinterpret_cast<CPed *>(entity);
-            bool rotate = false;
-            bool smoke = false;
-            char *fxName = "gunflash";
-            for (GunflashInfo &info : gunflashInfos) {
-                if (info.weapId == owner->m_aWeapons[owner->m_nActiveWeaponSlot].m_Type) {
-                    rotate = info.rotate;
-                    smoke = info.smoke;
-                    fxName = info.fxName;
-                    break;
-                }
-            }
-            char weapSkill = owner->GetWeaponSkill(owner->m_aWeapons[owner->m_nActiveWeaponSlot].m_Type);
-            CWeaponInfo *weapInfo = CWeaponInfo::GetWeaponInfo(owner->m_aWeapons[owner->m_nActiveWeaponSlot].m_Type, weapSkill);
-            RwV3d offset = weapInfo->m_vecFireOffset.ToRwV3d();
-            if (bLeftHand)
-                offset.z *= -1.0f;
-            static RwV3d axis_y = { 0.0f, 1.0f, 0.0f };
-            static RwV3d axis_z = { 0.0f, 0.0f, 1.0f };
-            RpHAnimHierarchy *hierarchy = GetAnimHierarchyFromSkinClump(owner->m_pRwClump);
-            RwMatrix *boneMat = &RpHAnimHierarchyGetMatrixArray(hierarchy)[RpHAnimIDGetIndex(hierarchy, 24 + 10 * bLeftHand)];
-            FxSystem_c *gunflashFx = g_fxMan.CreateFxSystem(fxName, &offset, boneMat, true);
+    if (entity && entity->m_nType == ENTITY_TYPE_PED) {
+        CPed *owner = reinterpret_cast<CPed *>(entity);
+        pedExt.Get(owner).bLeftHandGunflashThisFrame = bLeftHand;
+        pedExt.Get(owner).bRightHandGunflashThisFrame = !bLeftHand;
+        pedExt.Get(owner).bInVehicle = bVehicleGunflash;
+    }
+    else {
+        if (DistanceBetweenPoints(target, origin) > 0.0f) {
+            RwMatrix fxMat;
+            fx->CreateMatFromVec(&fxMat, &origin, &target);
+            RwV3d offset = { 0.0f, 0.0f, 0.0f };
+            FxSystem_c *gunflashFx = g_fxMan.CreateFxSystem("gunflash", &offset, &fxMat, false);
             if (gunflashFx) {
-                RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
-                if (rotate) {
-                    RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_y, CGeneral::GetRandomNumberInRange(0.0f, 360.0f), rwCOMBINEPRECONCAT);
-                }
-                if(!IMFX::bSampGame)
-                    gunflashFx->SetLocalParticles(true);
+                gunflashFx->CopyParentMatrix();
                 gunflashFx->PlayAndKill();
             }
-            if (smoke) {
-                FxSystem_c *smokeFx = g_fxMan.CreateFxSystem("gunsmoke", &offset, boneMat, true);
-                if (smokeFx) {
-                    RwMatrixRotate(&smokeFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
-                    smokeFx->PlayAndKill();
-                }
+            FxSystem_c *smokeFx = g_fxMan.CreateFxSystem("gunsmoke", &offset, &fxMat, false);
+            if (smokeFx) {
+                smokeFx->CopyParentMatrix();
+                smokeFx->PlayAndKill();
             }
         }
-        else {
-            if (DistanceBetweenPoints(target, origin) > 0.0f) {
-                RwMatrix fxMat;
-                fx->CreateMatFromVec(&fxMat, &origin, &target);
-                RwV3d offset = { 0.0f, 0.0f, 0.0f };
-                FxSystem_c *gunflashFx = g_fxMan.CreateFxSystem("gunflash", &offset, &fxMat, false);
-                if (gunflashFx) {
-                    gunflashFx->CopyParentMatrix();
-                    gunflashFx->PlayAndKill();
-                }
-                FxSystem_c *smokeFx = g_fxMan.CreateFxSystem("gunsmoke", &offset, &fxMat, false);
-                if (smokeFx) {
-                    smokeFx->CopyParentMatrix();
-                    smokeFx->PlayAndKill();
-                }
-            }
-        }
-        g_fxMan.FxRwMatrixDestroy(mat);
     }
     bLeftHand = false;
+    bVehicleGunflash = false;
+}
+
+void Gunflashes::CreateGunflashEffectsForPed(CPed *ped) {
+    bool ary[2];
+    ary[0] = pedExt.Get(ped).bLeftHandGunflashThisFrame;
+    ary[1] = pedExt.Get(ped).bRightHandGunflashThisFrame;
+    bool inVehicle = pedExt.Get(ped).bInVehicle;
+    for (int i = 0; i < 2; i++) {
+        if (ary[i]) {
+            RwMatrix *mat = nullptr;
+            if (matrixCounter < 20 && !inVehicle)
+                mat = &matrixAry[matrixCounter++];
+            bool leftHand = i == 0;
+            if (ped->m_pRwObject && ped->m_pRwObject->type == rpCLUMP) {
+                bool rotate = false;
+                bool smoke = false;
+                char *fxName = "gunflash";
+                for (GunflashInfo &info : gunflashInfos) {
+                    if (info.weapId == ped->m_aWeapons[ped->m_nActiveWeaponSlot].m_nType) {
+                        rotate = info.rotate;
+                        smoke = info.smoke;
+                        fxName = info.fxName;
+                        break;
+                    }
+                }
+                char weapSkill = ped->GetWeaponSkill(ped->m_aWeapons[ped->m_nActiveWeaponSlot].m_nType);
+                CWeaponInfo *weapInfo = CWeaponInfo::GetWeaponInfo(ped->m_aWeapons[ped->m_nActiveWeaponSlot].m_nType, weapSkill);
+                RwV3d offset = weapInfo->m_vecFireOffset.ToRwV3d();
+                if (leftHand)
+                    offset.z *= -1.0f;
+                static RwV3d axis_y = { 0.0f, 1.0f, 0.0f };
+                static RwV3d axis_z = { 0.0f, 0.0f, 1.0f };
+                RpHAnimHierarchy *hierarchy = GetAnimHierarchyFromSkinClump(ped->m_pRwClump);
+                RwMatrix *boneMat = &RpHAnimHierarchyGetMatrixArray(hierarchy)[RpHAnimIDGetIndex(hierarchy, 24 + 10 * leftHand)];
+                if (!mat)
+                    mat = boneMat;
+                else
+                    memcpy(mat, boneMat, sizeof(RwMatrix));
+                FxSystem_c *gunflashFx = g_fxMan.CreateFxSystem(fxName, &offset, mat, true);
+                if (gunflashFx) {
+                    RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
+                    if (rotate) {
+                        RwMatrixRotate(&gunflashFx->m_localMatrix, &axis_y, CGeneral::GetRandomNumberInRange(0.0f, 360.0f), rwCOMBINEPRECONCAT);
+                    }
+                    gunflashFx->PlayAndKill();
+                }
+                if (smoke) {
+                    FxSystem_c *smokeFx = g_fxMan.CreateFxSystem("gunsmoke", &offset, mat, true);
+                    if (smokeFx) {
+                        RwMatrixRotate(&smokeFx->m_localMatrix, &axis_z, -90.0f, rwCOMBINEPRECONCAT);
+                        smokeFx->PlayAndKill();
+                    }
+                }
+            }
+        }
+    }
+    pedExt.Get(ped).Reset();
 }

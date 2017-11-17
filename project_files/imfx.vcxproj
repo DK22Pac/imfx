@@ -85,7 +85,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.asi</TargetExt>
     <OutDir>D:/Games/Grand Theft Auto - San Andreas/scripts/</OutDir>
-    <TargetName>imfx_d</TargetName>
+    <TargetName>imfx</TargetName>
     <IntDir>..\output\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,15 +99,15 @@
       <PreprocessorDefinitions>_USING_V110_SDK71_;_CRT_SECURE_NO_WARNINGS;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:/Projects/plugin-sdk/output\lib\plugin_sa\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>plugin_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/plugin-sdk/output\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>paths_d.lib;plugin_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>..\output\obj\Debug\DEBUG.def</ModuleDefinitionFile>
     </Link>
     <PreLinkEvent>
-      <Command>..\custom_build\gendef\gendef.pl ..\output\obj\Debug Win32</Command>
+      <Command>..\custom_build\gendef\gendef.pl D:\Projects\imfx\output\obj\Debug Win32</Command>
     </PreLinkEvent>
     <PreLinkEvent>
       <Message>Generating .def file (gendef)</Message>
@@ -131,8 +131,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>D:/Projects/plugin-sdk/output\lib\plugin_sa\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>plugin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/Projects/plugin-sdk/output\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>paths_d.lib;plugin.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <ModuleDefinitionFile>..\output\obj\Release\RELEASE.def</ModuleDefinitionFile>
     </Link>

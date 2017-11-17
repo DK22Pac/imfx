@@ -55,8 +55,8 @@ FxSystem_c *__fastcall Explosions::MyCreateExplosionFx(CExplosion *explosion, in
     else if (bDetonatorExplosion && ExplosionFxNames[IMFX_EXPLOSION_DETONATOR][0]) {
         return g_fxMan.CreateFxSystem(ExplosionFxNames[IMFX_EXPLOSION_DETONATOR], point, mat, flag);
     }
-    else if (explosion->m_Type < IMFX_NUM_DEFAULT_EXPLOSION_TYPES && ExplosionFxNames[explosion->m_Type][0]) {
-        return g_fxMan.CreateFxSystem(ExplosionFxNames[explosion->m_Type], point, mat, flag);
+    else if (explosion->m_nType < IMFX_NUM_DEFAULT_EXPLOSION_TYPES && ExplosionFxNames[explosion->m_nType][0]) {
+        return g_fxMan.CreateFxSystem(ExplosionFxNames[explosion->m_nType], point, mat, flag);
     }
     return g_fxMan.CreateFxSystem(name, point, mat, flag);
 }

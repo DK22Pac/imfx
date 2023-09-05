@@ -72,7 +72,7 @@ bool __fastcall Gunflashes::MyProcessUseGunTask(CTaskSimpleUseGun *task, int, CP
             bLeftHand = false;
             CallMethod<0x61EB10>(task, ped, false);
         }
-        if (task->m_nFlags.bLefttHand) {
+        if (task->m_nFlags.bLeftHand) {
             bLeftHand = true;
             CallMethod<0x61EB10>(task, ped, true);
             bLeftHand = false;
